@@ -1,6 +1,8 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,5 +23,19 @@ public class FileUtil {
             e.printStackTrace();
         }
         return dataList;
+    }
+
+    public static void writeLines (List<String> lines) {
+        try {
+            FileWriter myWriter = new FileWriter("filtered.txt");
+            for(String  line : lines) {
+                myWriter.write(line);
+            }
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }
