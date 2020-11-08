@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #fafafa;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/salesforce-lightning-design-system.css" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="./resources/style/openlayer.css" />
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css">
+    <script src="./resources/scripts/openlayer.js"></script>
+    <script src="./resources/scripts/navigate.js"></script>
+    <title>Cities: Skyline Map Builder</title>
+</head>
+<body>
+    <!-- <header class="slds-global-header_container" style="position: relative;">
+        <div class="slds-global-header flexVerticalCenter" style="display: flex; align-items: center;">
+            <div class="slds-global-header__item">
+                <h1 class="fontSize1-5rem">Cities: Skyline Map Builder</h1>
+            </div>
+        </div>
+    </header> -->
+    <div id="main">
+        <!-- <div class="blur"></div> -->
+        <!-- <div class="slds-global-header__item" style="justify-content: center;white;background-color:#ffffff0a"> -->
+            <!-- <h1 class="fontSize1-5rem"></h1>Cities: Skyline Map Builder</h1> -->
+        <!-- </div> -->
+        <header class="slds-global-header_container" style="position: relative;">
+            <a href="https://github.com/dejvv/Switcheroos" class="github-corner" aria-label="View source on GitHub" target="_blank" rel="noopener">
+                <svg style="position:absolute;top:0;border:0;right:0" width="65" height="65" fill="#16325c" aria-hidden="true" color="#fff" viewBox="0 0 250 250">
+                <path d="M0 0l115 115h15l12 27 108 108V0z"></path>
+                <path style="transform-origin:130px 106px" fill="currentColor" d="M128 109c-14-9-9-19-9-19 3-7 2-11 2-11-2-7 2-3 2-3 4 5 3 11 3 11-3 11 5 15 8 16" class="octo-arm"></path>
+                <path fill="currentColor" d="M115 115s4 2 5 0l14-13c3-3 6-4 8-3-8-11-14-25 2-41 5-5 10-7 16-7 0-2 3-7 11-11 0 0 5 3 8 16a59 59 0 0 1 21 22c14 2 16 7 16 7-3 8-9 11-11 12 0 5-2 11-7 16-16 16-30 10-40 1 0 3-1 7-5 11l-12 12c-1 1 1 5 1 5z" class="octo-body"></path></svg>
+                </a>
+            <div class="slds-global-header flexVerticalCenter" style="display: flex; flex-direction:row; align-items: center; white;background-color:#ffffff0a">
+                <div class="slds-global-header__item" style="flex-grow: 1;"> <!--flex-grow:1;-->
+                    <a href="/" class="fontSize2rem">Cities: Skyline Map Builder</a>
+                </div>
+                <div class="slds-global-header__item" style="margin-right: 4rem;"> <!--display:block-->
+                    <button class="bg-text bg-text-small-margin decision-button" data-show="get">Get Prebuild Map</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- <div style="background-color: #fafafa; padding: 0.5 1 rem; margin: 0 1rem;">Use ctrl (cmd on Mac) + left mouse button to select rectangual area from which you want to generate map for Cities: Skyline.</div> -->
+
+        <div style="height: 100%; display: flex; flex-direction: row;">
+            <div class="map slds-p-around_medium" id="map"></div>
+            <div class="slds-p-around_medium">
+                <div style="background-color: #fafafa; padding: 1rem;">Use ctrl (cmd on Mac) + left mouse button to select rectangual area from which you want to generate map for Cities: Skyline.</div>
+                <div style="background-color: #fafafa; padding: 1rem; margin-top: 1rem; display: none;" id="toolbar">
+                    <p>Do you want to generate map from selected terrain?</p>
+                    <button class="slds-button slds-button_brand" id="generateMapButton">Generate map</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:none;" id="modalGenerate">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Generate map</h2>
+                    </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>Map generation is in progress and will take some time. Therefore we kindly ask you to
+                    provide us email so that we can notify you when generation is complete. </p>
+                    <p>We value your privacy and we will never send you messages or sell your data to our partners.</p>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">
+                        <abbr class="slds-required" title="required">* </abbr>Email address</label>
+                        <div class="slds-form-element__control">
+                        <input type="text" id="text-input-id-1" placeholder="Email address" required="" class="slds-input" />
+                        </div>
+                        </div>
+                </div>
+                <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" id="closeButton">Cancel</button>
+                <button class="slds-button slds-button_brand" id="generateButton">Generate</button>
+                </footer>
+                </div>
+                </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+            <div style="display:none;" id="modalThankYou">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Generate map</h2>
+                        </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Thank you for using our service! We will notify you when map is generaterd.
+                    </div>
+                    <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" id="modalThankYouClose">Close</button>
+                    </footer>
+                    </div>
+                    </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        
+
+
+
+
+    <script>
+        window.onload = () => {
+            initMap("toolbar");
+
+            let decisionButtons = document.getElementsByClassName("decision-button");
+            for (let i = 0; i < decisionButtons.length; i++) {
+                decisionButtons.item(i).addEventListener('click', function(event) {
+                    const element = event.target;
+                    Navigate.navigateTo(element.dataset.show);
+                });
+            }
+
+            document.getElementById("generateMapButton").addEventListener("click", function() {
+                document.getElementById("modalGenerate").style.display="block";
+            });
+
+            document.getElementById("closeButton").addEventListener("click", function() {
+                document.getElementById("modalGenerate").style.display="none";
+            });
+            document.getElementById("generateButton").addEventListener("click", function() {
+                let inputValue = document.getElementById("text-input-id-1").value;
+                if (inputValue === null || inputValue === undefined || inputValue === "") {
+                    alert("Email is mandatory to start generating map");
+                    return;
+                }
+                document.getElementById("modalGenerate").style.display="none";
+                document.getElementById("modalThankYou").style.display="block";
+            });
+            document.getElementById("modalThankYouClose").addEventListener("click", function() {
+                document.getElementById("modalThankYou").style.display="none";
+            });
+        }
+    </script>
+</body>
+</html>
