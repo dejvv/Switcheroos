@@ -7,5 +7,9 @@
     "@sentinel-hub/sentinelhub-js": "^0.2.35",
     "dotenv": "^8.2.0",
     "jimp": "^0.16.1"
+  },
+  "scripts": {
+    "ljubljana": "node index.js 14.395671 45.978571  14.627671 46.140379",
+    "maribor": "node index.js 15.55637 46.47262 15.74589 46.62787"
   }
 }

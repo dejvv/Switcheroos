@@ -1,4 +1,5 @@
 nodejs/node_modules/
+nodejs/.env
 gregor/hfilter.txt
 gregor/filtered.txt
 gregor/.ipynb_checkpoints/h-checkpoint.txt
